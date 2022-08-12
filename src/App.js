@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "react-modern-calendar-datepicker/lib/DatePicker.css";
 import { Calendar } from "react-modern-calendar-datepicker";
 import ChartComp from "./Components/ChartComp";
+import Login from "./Components/Login";
 // import { useQuery } from "@tanstack/react-query";
 
 // function getClothes() {
@@ -48,7 +49,7 @@ function App() {
   const [selectedDayRange, setSelectedDayRange] = useState(defaultRange);
   return (
     <div className=" ">
-      <h1 className="text-center">Practice excercise UI</h1>
+      {/* <h1 className="text-center">Practice excercise UI</h1> */}
       <div className="flex flex-wrap justify-center max-w-screen-xl mx-auto">
         {/* <Calendar
           value={selectedDayRange}
@@ -61,7 +62,9 @@ function App() {
           // disabledDays={disbaledDaysCal(date)}
           shouldHighlightWeekends
         /> */}
-        <ChartComp />
+        {/* <ChartComp /> */}
+        <Login />
+
       </div>
     </div>
   );
