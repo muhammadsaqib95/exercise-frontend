@@ -1,18 +1,18 @@
 import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
-  count: 0,
+  data : {}
 }
 
-export const counterSlice = createSlice({
+export const userSlice = createSlice({
   name: 'counter',
   initialState,
   reducers: {
-    increment: (state) => {
-      state.count += 1
+    login: (state, action) => {
+      state.data = action.payload
     },
-    decrement: (state) => {
-      state.count -= 1
+    logout: (state) => {
+      state.data = {}
     },
     incrementByAmount: (state, action) => {
       state.count += action.payload.amount
@@ -21,6 +21,6 @@ export const counterSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { increment, decrement, incrementByAmount } = counterSlice.actions
+export const { login, logout } = userSlice.actions
 
-export default counterSlice.reducer
+export default userSlice.reducer
