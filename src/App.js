@@ -15,14 +15,10 @@ function App() {
   console.log(userAuth);
   return (
     <div className=" ">
-      <div className="flex flex-wrap justify-center max-w-screen-xl mx-auto">
         {
           userAuth.token ? <Home />
           : <Login />
         }
-        test
-        
-      </div>
     </div>
   );
 }

@@ -1,50 +1,39 @@
 import { useState, useContext } from "react";
-import { useDispatch } from "react-redux";
 import { UserAuthContext } from "../context/UserAuth";
-import { login } from "../Redux/Reducer/User";
+import { userLogin } from "../api/user";
+import { useMutation } from "@tanstack/react-query";
+import { queryClient } from "../index";
 export default function Login() {
   const { setUserAuth } = useContext(UserAuthContext);
-  const dispatch = useDispatch();
   const [inputDetails, setInputDetails] = useState({
     email: "",
     password: "",
     error: "",
     loading: false,
   });
-  function handleLogin() {
-    if (inputDetails.email && inputDetails.password) {
-      var formdata = new FormData();
-      formdata.append("email", inputDetails.email);
-      formdata.append("password", inputDetails.password);
 
-      var requestOptions = {
-        method: "POST",
-        body: formdata,
-        redirect: "follow",
-      };
-
-      fetch("http://safetydevapis.safetytracker.be/public/api/login", requestOptions)
-        .then((response) => response.json())
-        .then((result) => {
-          if (result.status) {
-            localStorage.setItem("token", result.token);
-            setUserAuth({
-              token: result.token,
-            });
-            dispatch(login(result.data));
-          } else {
-            setInputDetails({
-              ...inputDetails,
-              error: result.message,
-              loading: false,
-            });
-          }
-        })
-        .catch((error) => console.log("error", error));
-    } else {
-      setInputDetails({ ...inputDetails, error: "Please enter all fields" });
-    }
-  }
+  const mutation = useMutation(userLogin, {
+    onSuccess: (data) => {
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+        localStorage.setItem("_id", data.data._id);
+        setUserAuth({
+          token: data.token,
+        });
+      } else {
+        setInputDetails({
+          ...inputDetails,
+          error: data.message,
+          loading: false,
+        });
+      }
+      queryClient.setQueryData(["userData"], (old) => data.data);
+    },
+    onError: (error) => {
+      setInputDetails({ ...inputDetails, error: error });
+    },
+  });
+  
   return (
     <div className="h-screen w-full flex flex-col justify-center items-center">
       {/* <h1>Login</h1> */}
@@ -65,11 +54,11 @@ export default function Login() {
             />
           </svg>
         </div>
-        {
-          inputDetails.error && (
-            <div className="text-red-500 text-center text-sm">{inputDetails.error}</div>
-          )
-        }
+        {inputDetails.error && (
+          <div className="text-red-500 text-center text-sm">
+            {inputDetails.error}
+          </div>
+        )}
         <input
           type="email"
           placeholder="Email"
@@ -97,7 +86,12 @@ export default function Login() {
         <button
           className="px-2 py-2 border border-gray-300 bg-gray-300 hover:bg-transparent text-white hover:text-black rounded-md"
           // disabled
-          onClick={handleLogin}
+          onClick={() => {
+            mutation.mutate({
+              email: inputDetails.email,
+              password: inputDetails.password,
+            });
+          }}
         >
           Login
         </button>
