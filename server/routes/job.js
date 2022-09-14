@@ -14,7 +14,7 @@ router.route("/add").post(userAuth,(req, res) => {
     const description = req.body.description;
     const job_type = req.body.job_type;
     const expire_on = Date.parse(req.body.expire_on);
-    const date = Date.parse(req.body.date);
+    const date = Date.parse(req.body.date ?? new Date());
     const newJob = new Job({
       title,
       description,
@@ -24,7 +24,7 @@ router.route("/add").post(userAuth,(req, res) => {
     });
     newJob
       .save()
-      .then(() => res.json("job added!"))
+      .then((result) => res.json(result))
       .catch((err) => res.status(400).json("Error : " + err));
   } catch (error) {
     res.status(400).json("Error : " + error);
@@ -37,22 +37,21 @@ router.route("/:id").get(userAuth,(req, res) => {
 });
 router.route("/:id").delete(userAuth,(req, res) => {
   Job.findByIdAndDelete(req.params.id)
-    .then(() => res.json("job deleted"))
+    .then(() => res.json({id : req.params.id}))
     .catch((err) => res.status(400).json("Error : " + err));
 });
 
 router.route("/update").put(userAuth,(req, res) => {
   Job.findById(req.body.id)
     .then((job) => {
-      job.title = req.body.name ?? job.title;
+      job.title = req.body.title ?? job.title;
       job.description = req.body.description ?? job.description;
       job.job_type = req.body.job_type ?? job.job_type;
       job.expire_on = Date.parse(req.body.expire_on ?? job.expire_on);
-      job.date = Date.parse(req.body.date ?? job.date);
 
       job
         .save()
-        .then(() => res.json("job updated!!"))
+        .then((result) => res.json(result))
         .catch((err) => res.status(400).json("Error : " + err));
     })
     .catch((err) => res.status(400).json("Error : " + err));

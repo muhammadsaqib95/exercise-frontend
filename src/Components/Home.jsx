@@ -14,9 +14,10 @@ export default function Home() {
   return (
     <>
       <div>
-  
-        <h1>Home</h1>
-        <hr className="w-10" />
+        <div className="flex justify-between items-center px-4 md:px-12 py-4 border-b">
+          <div className="font-bold text-2xl">Logo</div>
+          <button className="bg-blue-500 px-3 py-1 rounded-md text-white">Logout</button>
+        </div>
         <Jobs />
           {/* 
           <div>

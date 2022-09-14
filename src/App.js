@@ -12,7 +12,7 @@ function App() {
     AOS.refresh();
   }, []);
   const { userAuth } = useContext(UserAuthContext);
-  console.log(userAuth);
+  
   return (
     <div className=" ">
         {

@@ -11,7 +11,7 @@ const jobSchema = new Schema(
       description: {type : String, required : true},
       job_type : {type : String, required : true},
       expire_on: {type : Date, required : true},
-      date: {type : Date, required : true}
+      date: {type : Date}
   },
   {
     timestamps: true,
