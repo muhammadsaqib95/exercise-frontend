@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
  import  { Editor } from '@tinymce/tinymce-react';
 const allowedExt  =  ['jpg', 'jpeg', 'png', 'gif', 'svg'];
- export default function TextEditor({setvalue}) {
+ export default function TextEditor({setvalue, value}) {
    const editorRef = useRef(null);
    const log = () => {
      if (editorRef.current) {
@@ -17,14 +17,15 @@ const allowedExt  =  ['jpg', 'jpeg', 'png', 'gif', 'svg'];
      <>
        <Editor
          onInit={(evt, editor) => editorRef.current = editor}
-         initialValue=""
+         value={value}
          init={{
           selector: '#editor',
            height: 300,
            menubar: false,
            plugins: [
             'image',
-             'advlist autolink lists link charmap print preview anchor',
+            'lists',
+             'advlist autolink  link charmap print preview anchor',
              'visualblocks code',
              'media table paste code help wordcount styleselect'
            ],
@@ -95,7 +96,7 @@ const allowedExt  =  ['jpg', 'jpeg', 'png', 'gif', 'svg'];
           //   }
           }
          }}
-         apiKey="k6trya3ncncme42v7kg0p1yjm1xbfv3xl1t0jhvmy32cvfac"
+         apiKey={process.env.REACT_APP_TINY_API_KEY}
           onEditorChange={handleEditorChange}
          
        />

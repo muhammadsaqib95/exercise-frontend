@@ -14,7 +14,6 @@ const transporter = nodemailer.createTransport({
 // send email
 
 router.route("/").post(async (req, res) => {
-  // console.log(req);
   await transporter.sendMail(
     {
       from: process.env.EMAIL,

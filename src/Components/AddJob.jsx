@@ -79,7 +79,7 @@ export default function AddJob({ setAddjob, jobDetails, setJobDetails }) {
       setJobDetails({});
     },
   });
-
+console.log(jobDetails);
   return (
     <>
       {deleteConfirm && (
@@ -118,7 +118,7 @@ export default function AddJob({ setAddjob, jobDetails, setJobDetails }) {
             <div className="flex justify-end">
               <button
                 onClick={() => {
-                  deleteMutation.mutate(jobDetails._id);
+                  deleteMutation.mutate({id: jobDetails._id});
                 }}
                 className="bg-red-500 text-white px-5 py-2 rounded-lg"
               >
@@ -194,11 +194,12 @@ export default function AddJob({ setAddjob, jobDetails, setJobDetails }) {
                     Description
                   </label>
                   <TextEditor setvalue={(value) => {
+                    console.log(value);
                       setInputDetails({
                         ...inputDetails,
                         description: value,
                       });
-                    }}  />
+                    }} value={inputDetails.description} />
                   {/* <textarea
                     name="description"
                     id="description"

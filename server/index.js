@@ -4,7 +4,6 @@ const mongoose = require("mongoose");
 require("dotenv").config();
 const multer = require("multer");
 var upload = multer({ dest: "uploads/" });
-const jwt = require("jsonwebtoken");
 
 const app = express();
 const port = process.env.PORT || 3001;
