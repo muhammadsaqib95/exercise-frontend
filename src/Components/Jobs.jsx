@@ -47,7 +47,7 @@ export default function Jobs() {
           </button>
         </div>
         <div className="mt-2">
-          {data?.map((item) => (
+          {!isLoading && data?.map((item) => (
             <div key={item._id} className="border p-3 rounded-md my-2">
               <div className="flex items-center justify-end gap-2">
                 <svg
